@@ -77,3 +77,51 @@ Cada visual foi escolhido para responder uma pergunta específica. Abaixo está 
 ![Dashboard Power BI](power_bi_local/Dashboard_ProUni.jpg)
 
 (O arquivo .pbix interativo está na pasta /power_bi_local)
+
+# ☁️ Arquitetura 2: Pipeline de Nuvem (AWS)
+
+Esta abordagem foca em uma solução escalável, automatizável e padrão de mercado, capaz de lidar com volumes de dados massivos — exatamente como o nosso arquivo de 108 MB.
+
+O tutorial a seguir demonstra como criar um pipeline de dados "Serverless" (sem servidor) usando os serviços da AWS.
+
+## 1. Ingestão de Dados (AWS S3)
+
+O primeiro passo é mover nossos dados locais para a nuvem. Usamos o **AWS S3 (Simple Storage Service)**, um serviço de armazenamento de objetos.
+
+* **Ação:** Um script Python (`scripts/upload_para_s3.py`) usando a biblioteca `boto3` foi criado para automatizar o processo.
+* **O que ele faz:**
+    1.  Verifica se o bucket (ex: `pdroozi-prouni-projeto-extensao`) existe.
+    2.  Se não existir, ele o **cria automaticamente** na região especificada (ex: `us-east-1`).
+    3.  Faz o upload do arquivo `dados/ProUniTrienio.csv` para dentro do bucket.
+
+## 2. O Processo (A Prova)
+
+Abaixo está o passo a passo documentado do processo de ingestão:
+
+**Passo 1: O Console da AWS**
+O primeiro contato com o console da AWS, onde os serviços são gerenciados.
+
+![Painel AWS Console](aws_pipeline/img/painel_aws_console.png)
+
+**Passo 2: O S3 Vazio**
+O serviço S3 antes da execução do nosso script, ainda sem "buckets" (locais de armazenamento).
+
+![S3 Vazio](aws_pipeline/img/s3_vazio_ainda_sem_bucket.png)
+
+**Passo 3: A Execução do Script**
+O log do terminal do VS Code, mostrando o script `upload_para_s3.py` sendo executado e confirmando a criação do bucket e o início do upload.
+
+![Log de Upload S3](aws_pipeline/img/upload_para_s3.png)
+
+**Passo 4: O Bucket Criado**
+Após o script, o bucket `bucket_pdroozi_projeto_prouni` agora existe no S3.
+
+![Bucket Criado](aws_pipeline/img/bucket_criado.png)
+
+**Passo 5: O Arquivo CSV Uploadado**
+A prova final: nosso arquivo `ProUniTrienio.csv` (108.7 MB) está agora armazenado de forma segura na nuvem, dentro do bucket.
+
+![Arquivo CSV no S3](aws_pipeline/img/arquivo_csv_ProUniTrienio_uploadado.png)
+
+---
+*(EM CONSTRUÇÃO: Próximo passo, AWS Glue)*
