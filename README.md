@@ -19,7 +19,7 @@ Esta abordagem foca na velocidade de prototipação e na análise local.
 * **Modelagem:** Colunas calculadas (ex: `Idade Na Concessão`) foram criadas com DAX.
 * **Resultado:**
 
-![Dashboard Power BI](power-bi-local/Prouni_PBIX.pbix)
+![Dashboard Power BI](power_bi_local/Dashboard_ProUni.jpg)
 *(Substituir pelo seu print de tela. O arquivo .pbix está na pasta /power-bi-local)*
 
 ---
