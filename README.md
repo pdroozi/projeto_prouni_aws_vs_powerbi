@@ -94,34 +94,59 @@ O primeiro passo é mover nossos dados locais para a nuvem. Usamos o **AWS S3 (S
     2.  Se não existir, ele o **cria automaticamente** na região especificada (ex: `us-east-1`).
     3.  Faz o upload do arquivo `dados/ProUniTrienio.csv` para dentro do bucket.
 
-## 2. O Processo (A Prova)
+### 2. O Processo (A Prova)
 
 Abaixo está o passo a passo documentado do processo de ingestão:
 
 **Passo 1: O Console da AWS**
 O primeiro contato com o console da AWS, onde os serviços são gerenciados.
 
-![Painel AWS Console](aws_pipeline/img/painel_aws_console.png)
+![Painel AWS Console](aws-pipeline/img/painel_aws_console.png)
 
 **Passo 2: O S3 Vazio**
 O serviço S3 antes da execução do nosso script, ainda sem "buckets" (locais de armazenamento).
 
-![S3 Vazio](aws_pipeline/img/s3_vazio_ainda_sem_bucket.png)
+![S3 Vazio](aws-pipeline/img/s3_vazio_ainda_sem_bucket.png)
 
 **Passo 3: A Execução do Script**
 O log do terminal do VS Code, mostrando o script `upload_para_s3.py` sendo executado e confirmando a criação do bucket e o início do upload.
 
-![Log de Upload S3](aws_pipeline/img/upload_para_s3.png)
+![Log de Upload S3](aws-pipeline/img/upload_para_s3.png)
 
 **Passo 4: O Bucket Criado**
 Após o script, o bucket `bucket_pdroozi_projeto_prouni` agora existe no S3.
 
-![Bucket Criado](aws_pipeline/img/bucket_criado.png)
+![Bucket Criado](aws-pipeline/img/bucket_criado.png)
 
 **Passo 5: O Arquivo CSV Uploadado**
 A prova final: nosso arquivo `ProUniTrienio.csv` (108.7 MB) está agora armazenado de forma segura na nuvem, dentro do bucket.
 
-![Arquivo CSV no S3](aws_pipeline/img/arquivo_csv_ProUniTrienio_uploadado.png)
+![Arquivo CSV no S3](aws-pipeline/img/arquivo_csv_ProUniTrienio_uploadado.png)
+
+## 2. Catálogo de Dados (AWS Glue)
+
+Com o arquivo no S3, precisamos de um método *Serverless* para ler e entender a estrutura do CSV de 108 MB. Usamos o **AWS Glue** para criar um Catálogo de Dados (metadados) sobre o arquivo, sem precisar carregar ele em um banco de dados tradicional.
+
+* **Ação:** Criamos um **Glue Crawler** (Rastreador), que é uma ferramenta automatizada de descoberta de esquema.
+* **O que ele faz:**
+    1.  O Crawler "lê" o arquivo `ProUniTrienio.csv` diretamente do S3.
+    2.  Ele analisa os dados para **detectar automaticamente o esquema** (nomes das colunas e tipos de dados).
+    3.  Ele salva esse esquema como uma nova "tabela" em um "Banco de dados Glue".
+
+### O Processo (Tutorial Passo a Passo)
+
+| Ação | Descrição | Imagem |
+| :--- | :--- | :--- |
+| **Console Glue** | Primeiro acesso ao serviço AWS Glue. | ![Painel AWS Glue](aws-pipeline/img/painel_aws_glue.png) |
+| **Criar Crawler** | Início da configuração do novo Crawler. | ![Criar Crawler](aws-pipeline/img/create_crawler.png) |
+| **Propriedades** | Definição do nome do Crawler (ex: `prouni-csv-crawler`). | ![Propriedades do Crawler](aws-pipeline/img/crawler_properties.png) |
+| **Fonte de Dados** | Apontando o Crawler para o caminho exato do bucket S3 (`s3://.../dados/`). | ![Seleção da Fonte de Dados](aws-pipeline/img/select_data_source.png) |
+| **IAM Role** | Criação do IAM Role com permissões de leitura no S3, essencial para o sucesso da execução. | ![Seleção do Role IAM](aws-pipeline/img/select_role.png) |
+| **Database/DB** | Definição de onde a tabela de esquema será salva (ex: no `prouni_db`). | ![Seleção do Banco de Dados](aws-pipeline/img/select_db.png) |
+| **Crawler Criado** | O Crawler pronto para a execução. | ![Crawler Criado](aws-pipeline/img/crawler_created.png) |
+| **Execução** | Início manual da execução do Crawler. | ![Execução do Crawler](aws-pipeline/img/crawler_run.png) |
+| **Conclusão** | O Crawler finaliza a varredura do arquivo e gera o esquema. | ![Crawler Concluído](aws-pipeline/img/crawler_sucess.png) |
+| **Tabela Final** | **Prova:** A tabela `prouni_dados` (ou similar) é criada no Catálogo de Dados, contendo o esquema de colunas do nosso CSV. | ![Tabela Criada](aws-pipeline/img/crawler_table_created.png) |
 
 ---
-*(EM CONSTRUÇÃO: Próximo passo, AWS Glue)*
+*(EM CONSTRUÇÃO: Próximo passo, AWS Athena)*
