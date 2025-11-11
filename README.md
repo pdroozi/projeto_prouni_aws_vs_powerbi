@@ -1,3 +1,16 @@
+---
+
+### ⚠️ NOTA DE ACESSO E VISUALIZAÇÃO PARA AVALIAÇÃO (PROFESSOR)
+
+Devido a problemas de compatibilidade e sincronização do **Git Large File Storage (Git LFS)** com arquivos CSV de grande volume (108 MB), as imagens do tutorial (screenshots da AWS) **não estão sendo carregadas** na visualização web (navegador).
+
+Para a avaliação completa, é **necessário** o acesso via ambiente de desenvolvimento:
+
+1.  **Clonar o Repositório:** Abrir o terminal (ou VS Code) e clonar o projeto:
+    `git clone https://github.com/pdroozi/projeto-prouni-aws-vs-powerbi.git`
+2.  **Visualizar Localmente:** As imagens estarão disponíveis na pasta `aws-pipeline/img/`. O relatório `README.md` completo com as imagens aparecerá corretamente no Preview do VS Code após a clonagem.
+   
+---
 
 # 🚀 Arquitetura 1: Análise Desktop (Power BI)
 
