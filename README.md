@@ -123,6 +123,8 @@ A prova final: nosso arquivo `ProUniTrienio.csv` (108.7 MB) está agora armazena
 
 ![Arquivo CSV no S3](aws-pipeline/img/arquivo_csv_ProUniTrienio_uploadado.png)
 
+---
+
 ## 2. Catálogo de Dados (AWS Glue)
 
 Com o arquivo no S3, precisamos de um método *Serverless* para ler e entender a estrutura do CSV de 108 MB. Usamos o **AWS Glue** para criar um Catálogo de Dados (metadados) sobre o arquivo, sem precisar carregar ele em um banco de dados tradicional.
@@ -149,4 +151,22 @@ Com o arquivo no S3, precisamos de um método *Serverless* para ler e entender a
 | **Tabela Final** | **Prova:** A tabela `prouni_dados` (ou similar) é criada no Catálogo de Dados, contendo o esquema de colunas do nosso CSV. | ![Tabela Criada](aws-pipeline/img/crawler_table_created.png) |
 
 ---
-*(EM CONSTRUÇÃO: Próximo passo, AWS Athena)*
+
+## 3. Transformação e Consulta (AWS Athena)
+
+Com a tabela catalogada, usamos o **AWS Athena** para rodar consultas SQL diretamente sobre os arquivos no S3. Este serviço atua como nossa camada de **Transformação (T)** no pipeline de nuvem, replicando as colunas calculadas do Power BI.
+
+* **Ação:** Criamos consultas SQL para gerar novas "features" (colunas calculadas) em tempo real, sem alterar o arquivo original no S3.
+* **Ferramenta:** Usamos o Editor de Consultas do Athena (interface web).
+
+### O Processo (A Prova)
+
+| Ação | Descrição | Imagem |
+| :--- | :--- | :--- |
+| **Painel Athena** | Primeiro contato com a interface do Athena, com a tabela do Glue já disponível. | ![Painel AWS Athena](aws-pipeline/img/painel_aws_athena.png) |
+| **Transformação 1: Idade** | Criação da coluna `idade_na_concessao` usando as funções `CAST` e `SUBSTR` do SQL para replicar a lógica do DAX. | ![Criação da Coluna Idade](aws-pipeline/img/create_Idade.png) |
+| **Transformação 2: Localização** | Criação da coluna `localizacao_mapa` usando a função SQL `CONCAT` para resolver o problema de geocodificação do mapa. | ![Criação da Coluna Localização](aws-pipeline/img/create_LocalizacaoMapa.png) |
+| **Consulta Final** | A consulta SQL que une as duas transformações e seleciona os dados prontos para o QuickSight. Esta é a nossa *fonte de dados final* na arquitetura AWS. | ![Consulta Final para BI](aws-pipeline/img/create_final_query.png) |
+
+---
+*(EM CONSTRUÇÃO: Próximo passo, AWS QuickSight)*
