@@ -90,9 +90,9 @@ O primeiro passo é mover nossos dados locais para a nuvem. Usamos o **AWS S3 (S
 
 * **Ação:** Um script Python (`scripts/upload_para_s3.py`) usando a biblioteca `boto3` foi criado para automatizar o processo.
 * **O que ele faz:**
-    1.  Verifica se o bucket (ex: `pdroozi-prouni-projeto-extensao`) existe.
-    2.  Se não existir, ele o **cria automaticamente** na região especificada (ex: `us-east-1`).
-    3.  Faz o upload do arquivo `dados/ProUniTrienio.csv` para dentro do bucket.
+    1. Verifica se o bucket (ex: `pdroozi-prouni-projeto-extensao`) existe.
+    2. Se não existir, ele o **cria automaticamente** na região especificada (ex: `us-east-1`).
+    3. Faz o upload do arquivo `dados/ProUniTrienio.csv` para dentro do bucket.
 
 ### 2. O Processo (A Prova)
 
@@ -131,9 +131,9 @@ Com o arquivo no S3, precisamos de um método *Serverless* para ler e entender a
 
 * **Ação:** Criamos um **Glue Crawler** (Rastreador), que é uma ferramenta automatizada de descoberta de esquema.
 * **O que ele faz:**
-    1.  O Crawler "lê" o arquivo `ProUniTrienio.csv` diretamente do S3.
-    2.  Ele analisa os dados para **detectar automaticamente o esquema** (nomes das colunas e tipos de dados).
-    3.  Ele salva esse esquema como uma nova "tabela" em um "Banco de dados Glue".
+    1. O Crawler "lê" o arquivo `ProUniTrienio.csv` diretamente do S3.
+    2. Ele analisa os dados para **detectar automaticamente o esquema** (nomes das colunas e tipos de dados).
+    3. Ele salva esse esquema como uma nova "tabela" em um "Banco de dados Glue".
 
 ### O Processo (Tutorial Passo a Passo)
 
