@@ -74,7 +74,7 @@ Cada visual foi escolhido para responder uma pergunta específica. Abaixo está 
 
 ## 4. Resultado (Dashboard)
 
-![Dashboard Power BI](power-bi-local/Dashboard_ProUni.jpg)
+![Dashboard Power BI](power_bi_local/Dashboard_ProUni.jpg)
 
 (O arquivo .pbix interativo está na pasta /power-bi-local)
 
@@ -103,27 +103,27 @@ Abaixo está o passo a passo documentado do processo de ingestão:
 **Passo 1: O Console da AWS**
 O primeiro contato com o console da AWS, onde os serviços são gerenciados.
 
-![Painel AWS Console](aws-pipeline/img/painel-aws-console.png)
+![Painel AWS Console](aws-pipeline/img/painel_aws_console.png)
 
 **Passo 2: O S3 Vazio**
 O serviço S3 antes da execução do nosso script, ainda sem "buckets" (locais de armazenamento).
 
-![S3 Vazio](aws-pipeline/img/s3-vazio-ainda-sem-bucket.png)
+![S3 Vazio](aws-pipeline/img/s3_vazio_ainda_sem_bucket.png)
 
 **Passo 3: A Execução do Script**
 O log do terminal do VS Code, mostrando o script `upload_para_s3.py` sendo executado e confirmando a criação do bucket e o início do upload.
 
-![Log de Upload S3](aws-pipeline/img/upload-para-s3.png)
+![Log de Upload S3](aws-pipeline/img/upload_para_s3.png)
 
 **Passo 4: O Bucket Criado**
 Após o script, o bucket `bucket_pdroozi_projeto_prouni` agora existe no S3.
 
-![Bucket Criado](aws-pipeline/img/bucket-criado.png)
+![Bucket Criado](aws-pipeline/img/bucket_criado.png)
 
 **Passo 5: O Arquivo CSV Uploadado**
 A prova final: nosso arquivo `ProUniTrienio.csv` (108.7 MB) está agora armazenado de forma segura na nuvem, dentro do bucket.
 
-![Arquivo CSV no S3](aws-pipeline/img/arquivo-csv-prounitrienio-uploadado.png)
+![Arquivo CSV no S3](aws-pipeline/img/arquivo_csv_prounitrienio_uploadado.png)
 
 ---
 
@@ -141,16 +141,16 @@ Com o arquivo no S3, precisamos de um método *Serverless* para ler e entender a
 
 | Ação | Descrição | Imagem |
 | :--- | :--- | :--- |
-| **Console Glue** | Primeiro acesso ao serviço AWS Glue. | ![Painel AWS Glue](aws-pipeline/img/painel-aws-glue.png) |
-| **Criar Crawler** | Início da configuração do novo Crawler. | ![Criar Crawler](aws-pipeline/img/create-crawler.png) |
-| **Propriedades** | Definição do nome do Crawler (ex: `prouni-csv-crawler`). | ![Propriedades do Crawler](aws-pipeline/img/crawler-properties.png) |
-| **Fonte de Dados** | Apontando o Crawler para o caminho exato do bucket S3 (`s3://.../dados/`). | ![Seleção da Fonte de Dados](aws-pipeline/img/select-data-source.png) |
-| **IAM Role** | Criação do IAM Role com permissões de leitura no S3, essencial para o sucesso da execução. | ![Seleção do Role IAM](aws-pipeline/img/select-role.png) |
-| **Database/DB** | Definição de onde a tabela de esquema será salva (ex: no `prouni_db`). | ![Seleção do Banco de Dados](aws-pipeline/img/select-db.png) |
-| **Crawler Criado** | O Crawler pronto para a execução. | ![Crawler Criado](aws-pipeline/img/crawler-created.png) |
-| **Execução** | Início manual da execução do Crawler. | ![Execução do Crawler](aws-pipeline/img/crawler-run.png) |
-| **Conclusão** | O Crawler finaliza a varredura do arquivo e gera o esquema. | ![Crawler Concluído](aws-pipeline/img/crawler-sucess.png) |
-| **Tabela Final** | **Prova:** A tabela `prouni_dados` (ou similar) é criada no Catálogo de Dados, contendo o esquema de colunas do nosso CSV. | ![Tabela Criada](aws-pipeline/img/crawler-table-created.png) |
+| **Console Glue** | Primeiro acesso ao serviço AWS Glue. | ![Painel AWS Glue](aws-pipeline/img/painel_aws_glue.png) |
+| **Criar Crawler** | Início da configuração do novo Crawler. | ![Criar Crawler](aws-pipeline/img/create_crawler.png) |
+| **Propriedades** | Definição do nome do Crawler (ex: `prouni-csv-crawler`). | ![Propriedades do Crawler](aws-pipeline/img/crawler_properties.png) |
+| **Fonte de Dados** | Apontando o Crawler para o caminho exato do bucket S3 (`s3://.../dados/`). | ![Seleção da Fonte de Dados](aws-pipeline/img/select_data_source.png) |
+| **IAM Role** | Criação do IAM Role com permissões de leitura no S3, essencial para o sucesso da execução. | ![Seleção do Role IAM](aws-pipeline/img/select_role.png) |
+| **Database/DB** | Definição de onde a tabela de esquema será salva (ex: no `prouni_db`). | ![Seleção do Banco de Dados](aws-pipeline/img/select_db.png) |
+| **Crawler Criado** | O Crawler pronto para a execução. | ![Crawler Criado](aws-pipeline/img/crawler_created.png) |
+| **Execução** | Início manual da execução do Crawler. | ![Execução do Crawler](aws-pipeline/img/crawler_run.png) |
+| **Conclusão** | O Crawler finaliza a varredura do arquivo e gera o esquema. | ![Crawler Concluído](aws-pipeline/img/crawler_sucess.png) |
+| **Tabela Final** | **Prova:** A tabela `prouni_dados` (ou similar) é criada no Catálogo de Dados, contendo o esquema de colunas do nosso CSV. | ![Tabela Criada](aws-pipeline/img/crawler_table_created.png) |
 
 ---
 
@@ -165,10 +165,10 @@ Com a tabela catalogada, usamos o **AWS Athena** para rodar consultas SQL direta
 
 | Ação | Descrição | Imagem |
 | :--- | :--- | :--- |
-| **Painel Athena** | Primeiro contato com a interface do Athena, com a tabela do Glue já disponível. | ![Painel AWS Athena](aws-pipeline/img/painel-aws-athena.png) |
-| **Transformação 1: Idade** | Criação da coluna `idade_na_concessao` usando as funções `CAST` e `SUBSTR` do SQL para replicar a lógica do DAX. | ![Criação da Coluna Idade](aws-pipeline/img/create-idade.png) |
-| **Transformação 2: Localização** | Criação da coluna `localizacao_mapa` usando a função SQL `CONCAT` para resolver o problema de geocodificação do mapa. | ![Criação da Coluna Localização](aws-pipeline/img/create-localizacaomapa.png) |
-| **Consulta Final** | A consulta SQL que une as duas transformações e seleciona os dados prontos para o QuickSight. Esta é a nossa *fonte de dados final* na arquitetura AWS. | ![Consulta Final para BI](aws-pipeline/img/create-final-query.png) |
+| **Painel Athena** | Primeiro contato com a interface do Athena, com a tabela do Glue já disponível. | ![Painel AWS Athena](aws-pipeline/img/painel_aws_athena.png) |
+| **Transformação 1: Idade** | Criação da coluna `idade_na_concessao` usando as funções `CAST` e `SUBSTR` do SQL para replicar a lógica do DAX. | ![Criação da Coluna Idade](aws-pipeline/img/create_idade.png) |
+| **Transformação 2: Localização** | Criação da coluna `localizacao_mapa` usando a função SQL `CONCAT` para resolver o problema de geocodificação do mapa. | ![Criação da Coluna Localização](aws-pipeline/img/create_localizacaomapa.png) |
+| **Consulta Final** | A consulta SQL que une as duas transformações e seleciona os dados prontos para o QuickSight. Esta é a nossa *fonte de dados final* na arquitetura AWS. | ![Consulta Final para BI](aws-pipeline/img/create_final_query.png) |
 
 ---
 
@@ -183,15 +183,15 @@ O último passo do pipeline de nuvem é a visualização dos dados transformados
 
 | Ação | Descrição | Imagem |
 | :--- | :--- | :--- |
-| **Painel QuickSight** | Acessando o console para iniciar a análise. | ![Painel AWS QuickSight](aws-pipeline/img/painel-aws-quicksight.png) |
-| **Página Inicial** | A página inicial do QuickSight, onde as análises são criadas. | ![Página Principal QuickSuite](aws-pipeline/img/mainpage-quicksuite.png) |
-| **Criar Análise** | Início do processo para criar uma nova visualização. | ![Criar Análise](aws-pipeline/img/suite-create-analysis.png) |
-| **Fonte de Dados** | Escolha da fonte de dados **Athena**, que consulta nosso Catálogo Glue. | ![Escolha da Fonte de Dados](aws-pipeline/img/suite-data-source.png) |
-| **Catálogo/Tabela** | Seleção do `prouni_db` (nosso Catálogo Glue). | ![Seleção de Tabelas](aws-pipeline/img/suite-choose-tables.png) |
-| **SQL Personalizado** | Colagem da consulta SQL final do Athena, criando as colunas calculadas (Idade e Localização Lógica). | ![Colar Consulta Customizada](aws-pipeline/img/suite-custom-query.png) |
-| **Confirmação** | Confirmação da conexão e entrada na tela de Preparação de Dados (Data Prep). | ![Confirmação Data Prep](aws-pipeline/img/suite-confirm-data-prep.png) |
-| **Página de Análise** | A interface de Business Intelligence (BI) para montagem do dashboard. | ![Página de BI](aws-pipeline/img/suite-business-inteligence-page.png) |
-| **Resultado Final** | O dashboard QuickSight com os visuais de KPI, Proporção e Ranking replicados. | ![Dashboard QuickSight Final](aws-pipeline/img/suite-dashboard.png) |
+| **Painel QuickSight** | Acessando o console para iniciar a análise. | ![Painel AWS QuickSight](aws-pipeline/img/painel_aws_quicksight.png) |
+| **Página Inicial** | A página inicial do QuickSight, onde as análises são criadas. | ![Página Principal QuickSuite](aws-pipeline/img/mainpage_quicksuite.png) |
+| **Criar Análise** | Início do processo para criar uma nova visualização. | ![Criar Análise](aws-pipeline/img/suite_create_analysis.png) |
+| **Fonte de Dados** | Escolha da fonte de dados **Athena**, que consulta nosso Catálogo Glue. | ![Escolha da Fonte de Dados](aws-pipeline/img/suite_data_source.png) |
+| **Catálogo/Tabela** | Seleção do `prouni_db` (nosso Catálogo Glue). | ![Seleção de Tabelas](aws-pipeline/img/suite_choose_tables.png) |
+| **SQL Personalizado** | Colagem da consulta SQL final do Athena, criando as colunas calculadas (Idade e Localização Lógica). | ![Colar Consulta Customizada](aws-pipeline/img/suite_custom_query.png) |
+| **Confirmação** | Confirmação da conexão e entrada na tela de Preparação de Dados (Data Prep). | ![Confirmação Data Prep](aws-pipeline/img/suite_confirm_data_prep.png) |
+| **Página de Análise** | A interface de Business Intelligence (BI) para montagem do dashboard. | ![Página de BI](aws-pipeline/img/suite_business_inteligence_page.png) |
+| **Resultado Final** | O dashboard QuickSight com os visuais de KPI, Proporção e Ranking replicados. | ![Dashboard QuickSight Final](aws-pipeline/img/suite_dashboard.png) |
 
 ---
 
