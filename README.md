@@ -169,4 +169,28 @@ Com a tabela catalogada, usamos o **AWS Athena** para rodar consultas SQL direta
 | **Consulta Final** | A consulta SQL que une as duas transformações e seleciona os dados prontos para o QuickSight. Esta é a nossa *fonte de dados final* na arquitetura AWS. | ![Consulta Final para BI](aws-pipeline/img/create_final_query.png) |
 
 ---
-*(EM CONSTRUÇÃO: Próximo passo, AWS QuickSight)*
+## 4. Visualização Final (AWS QuickSight)
+
+O último passo do pipeline de nuvem é a visualização dos dados transformados.
+
+* **Ação:** O **AWS QuickSight** foi utilizado para conectar-se à consulta SQL final no Athena.
+* **Conexão:** O QuickSight usa a camada de Athena para ler os dados, garantindo que o dashboard seja sempre atualizado e escalável.
+
+### O Processo de Conexão e Análise (Tutorial Passo a Passo)
+
+| Ação | Descrição | Imagem |
+| :--- | :--- | :--- |
+| **Painel QuickSight** | Acessando o console para iniciar a análise. | ![Painel AWS QuickSight](aws-pipeline/img/painel_aws_quicksight.png) |
+| **Página Inicial** | A página inicial do QuickSight, onde as análises são criadas. | ![Página Principal QuickSuite](aws-pipeline/img/mainpage_quicksuite.png) |
+| **Criar Análise** | Início do processo para criar uma nova visualização. | ![Criar Análise](aws-pipeline/img/suite_create_analysis.png) |
+| **Fonte de Dados** | Escolha da fonte de dados **Athena**, que consulta nosso Catálogo Glue. | ![Escolha da Fonte de Dados](aws-pipeline/img/suite_data_source.png) |
+| **Catálogo/Tabela** | Seleção do `prouni_db` (nosso Catálogo Glue). | ![Seleção de Tabelas](aws-pipeline/img/suite_choose_tables.png) |
+| **SQL Personalizado** | Colagem da consulta SQL final do Athena, criando as colunas calculadas (Idade e Localização Lógica). | ![Colar Consulta Customizada](aws-pipeline/img/suite_custom_query.png) |
+| **Confirmação** | Confirmação da conexão e entrada na tela de Preparação de Dados (Data Prep). | ![Confirmação Data Prep](aws-pipeline/img/suite_confirm_data_prep.png) |
+| **Página de Análise** | A interface de Business Intelligence (BI) para montagem do dashboard. | ![Página de BI](aws-pipeline/img/suite_business_inteligence_page.png) |
+| **Resultado Final** | O dashboard QuickSight com os visuais de KPI, Proporção e Ranking replicados. | ![Dashboard QuickSight Final](aws-pipeline/img/suite_dashboard.png) |
+
+---
+## Conclusão e Valor do Projeto
+
+Este projeto demonstrou que, embora o **Power BI** seja superior em velocidade e facilidade de prototipação, a arquitetura **AWS** (S3 > Glue > Athena > QuickSight) é a solução ideal para grandes volumes de dados e para a criação de um pipeline de dados *serverless* e profissional, alinhando o aprendizado técnico com o requisito de extensão da UNIP através deste tutorial comparativo.
